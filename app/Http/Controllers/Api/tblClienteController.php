@@ -44,12 +44,20 @@ class tblClienteController extends Controller {
     }
 
     public function update(UpdateClienteRequest $request, tblCliente $cliente): JsonResponse {
+        if (auth()->user()->rol !== 'admin') {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+        
         $cliente->update($request->validated());
 
         return response()->json($cliente);
     }
 
     public function destroy(tblCliente $cliente): JsonResponse {
+        if (auth()->user()->rol !== 'admin') {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+
         $cliente->delete();
 
         return response()->json(null, 204);

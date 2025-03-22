@@ -42,11 +42,19 @@ class tblArticuloController extends Controller {
     }
 
     public function update(UpdateArticuloRequest $request, tblArticulo $articulo): JsonResponse {
+        if (auth()->user()->rol !== 'admin') {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+        
         $articulo->update($request->validated());
         return response()->json($articulo);
     }
 
     public function destroy(tblArticulo $articulo): JsonResponse {
+        if (auth()->user()->rol !== 'admin') {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+
         $articulo->delete();
         return response()->json(null, 204);
     }

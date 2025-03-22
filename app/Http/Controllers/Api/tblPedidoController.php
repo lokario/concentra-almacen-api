@@ -63,6 +63,10 @@ class tblPedidoController extends Controller {
     }
 
     public function update(UpdatePedidoRequest $request, tblPedido $pedido): JsonResponse {
+        if (auth()->user()->rol !== 'admin') {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+        
         $validated = $request->validated();
         $oldCantidad = $pedido->cantidad;
         $oldColocacionId = $pedido->colocacion_id;
@@ -91,6 +95,10 @@ class tblPedidoController extends Controller {
     }
 
     public function destroy(tblPedido $pedido): JsonResponse {
+        if (auth()->user()->rol !== 'admin') {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+
         // If colcacion is destroyed, restore stock
         $colocacion = tblColocacion::find($pedido->colocacion_id);
         $colocacion->cantidad_en_stock += $pedido->cantidad;

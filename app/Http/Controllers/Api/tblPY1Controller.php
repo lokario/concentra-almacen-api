@@ -42,6 +42,10 @@ class tblPY1Controller extends Controller {
     }
 
     public function store(StoreUsuarioRequest $request): JsonResponse {
+        if (auth()->user()->rol !== 'admin') {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+        
         $data = $request->validated();
         $data['password'] = Hash::make($data['password']);
 
@@ -54,6 +58,10 @@ class tblPY1Controller extends Controller {
     }
 
     public function update(UpdateUsuarioRequest $request, tblPY1 $usuario): JsonResponse {
+        if (auth()->user()->rol !== 'admin') {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+
         $data = $request->validated();
 
         if (isset($data['password'])) {
@@ -65,6 +73,10 @@ class tblPY1Controller extends Controller {
     }
 
     public function destroy(tblPY1 $usuario): JsonResponse {
+        if (auth()->user()->rol !== 'admin') {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+
         $usuario->delete();
         return response()->json(null, 204);
     }

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\tblPY1;
 
@@ -35,5 +35,11 @@ class AuthController extends Controller {
             'token_type' => 'Bearer',
             'user' => $user
         ], 201);
+    }
+
+    public function logout(Request $request): JsonResponse {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json(['message' => 'Sesión cerrada']);
     }
 }

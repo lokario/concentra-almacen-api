@@ -54,11 +54,19 @@ class tblColocacionController extends Controller {
     }
 
     public function update(UpdateColocacionRequest $request, tblColocacion $colocacion): JsonResponse {
+        if (auth()->user()->rol !== 'admin') {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+
         $colocacion->update($request->validated());
         return response()->json($colocacion);
     }
 
     public function destroy(tblColocacion $colocacion): JsonResponse {
+        if (auth()->user()->rol !== 'admin') {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+
         $colocacion->delete();
         return response()->json(null, 204);
     }

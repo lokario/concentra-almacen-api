@@ -46,11 +46,19 @@ class tblFacturaController extends Controller {
     }
 
     public function update(UpdateFacturaRequest $request, tblFactura $factura): JsonResponse {
+        if (auth()->user()->rol !== 'admin') {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+        
         $factura->update($request->validated());
         return response()->json($factura);
     }
 
     public function destroy(tblFactura $factura): JsonResponse {
+        if (auth()->user()->rol !== 'admin') {
+            return response()->json(['message' => 'No autorizado'], 403);
+        }
+
         $factura->delete();
         return response()->json(null, 204);
     }
