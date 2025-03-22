@@ -6,12 +6,39 @@ use App\Http\Controllers\Controller;
 use App\Models\tblPY1;
 use App\Http\Requests\StoreUsuarioRequest;
 use App\Http\Requests\UpdateUsuarioRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\JsonResponse;
 
 class tblPY1Controller extends Controller {
-    public function index(): JsonResponse {
-        return response()->json(tblPY1::all(), 200);
+    public function index(Request $request): JsonResponse {
+        $query = tblPY1::query();
+
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'like', '%' . $request->nombre . '%');
+        }
+
+        if ($request->filled('email')) {
+            $query->where('email', 'like', '%' . $request->email . '%');
+        }
+
+        if ($request->filled('cedula')) {
+            $query->where('cedula', $request->cedula);
+        }
+
+        if ($request->filled('rol')) {
+            $query->where('rol', $request->rol);
+        }
+
+        $usuarios = $query->paginate($request->input('per_page', 10));
+
+        return response()->json([
+            'data' => $usuarios->items(),
+            'total' => $usuarios->total(),
+            'per_page' => $usuarios->perPage(),
+            'current_page' => $usuarios->currentPage(),
+            'last_page' => $usuarios->lastPage()
+        ], 200);
     }
 
     public function store(StoreUsuarioRequest $request): JsonResponse {

@@ -10,10 +10,27 @@ use App\Http\Requests\UpdateClienteRequest;
 use Illuminate\Http\JsonResponse;
 
 class tblClienteController extends Controller {
-    public function index(): JsonResponse {
-        $customers = tblCliente::all();
+    public function index(Request $request): JsonResponse {
+        $query = tblCliente::query();
 
-        return response()->json($customers, 200);
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'like', '%' . $request->nombre . '%');
+        }
+
+        if ($request->filled('tipo')) {
+            $query->where('tipo', $request->tipo);
+        }
+
+        $perPage = $request->input('per_page', 12);
+        $clientes = $query->paginate($perPage);
+
+        return response()->json([
+            'data' => $clientes->items(),
+            'total' => $clientes->total(),
+            'per_page' => $clientes->perPage(),
+            'current_page' => $clientes->currentPage(),
+            'last_page' => $clientes->lastPage(),
+        ], 200);
     }
 
     public function store(StoreClienteRequest $request): JsonResponse {

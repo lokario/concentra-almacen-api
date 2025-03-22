@@ -4,13 +4,36 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\tblColocacion;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreColocacionRequest;
 use App\Http\Requests\UpdateColocacionRequest;
 use Illuminate\Http\JsonResponse;
 
 class tblColocacionController extends Controller {
-    public function index(): JsonResponse {
-        return response()->json(tblColocacion::all(), 200);
+    public function index(Request $request): JsonResponse {
+        $query = tblColocacion::query();
+
+        if ($request->filled('nombre')) {
+            $query->where('nombre', 'like', '%' . $request->nombre . '%');
+        }
+
+        if ($request->filled('precio_min')) {
+            $query->where('precio', '>=', $request->min_precio);
+        }
+
+        if ($request->filled('precio_max')) {
+            $query->where('precio', '<=', $request->max_precio);
+        }
+
+        $colocaciones = $query->paginate($request->input('per_page', 10));
+
+        return response()->json([
+            'data' => $colocaciones->items(),
+            'total' => $colocaciones->total(),
+            'per_page' => $colocaciones->perPage(),
+            'current_page' => $colocaciones->currentPage(),
+            'last_page' => $colocaciones->lastPage()
+        ], 200);
     }
 
     public function store(StoreColocacionRequest $request): JsonResponse {
