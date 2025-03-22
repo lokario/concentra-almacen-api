@@ -3,62 +3,32 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\tblArticulo;
+use App\Http\Requests\StoreArticuloRequest;
+use App\Http\Requests\UpdateArticuloRequest;
+use Illuminate\Http\JsonResponse;
 
-class tblArticuloController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+class tblArticuloController extends Controller {
+    public function index(): JsonResponse {
+        return response()->json(tblArticulo::all(), 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function store(StoreArticuloRequest $request): JsonResponse {
+        $articulo = tblArticulo::create($request->validated());
+        return response()->json($articulo, 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+    public function show(tblArticulo $articulo): JsonResponse {
+        return response()->json($articulo);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(UpdateArticuloRequest $request, tblArticulo $articulo): JsonResponse {
+        $articulo->update($request->validated());
+        return response()->json($articulo);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function destroy(tblArticulo $articulo): JsonResponse {
+        $articulo->delete();
+        return response()->json(null, 204);
     }
 }
