@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\tblPedido;
+use App\Models\tblColocacion;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\StorePedidoRequest;
@@ -34,7 +35,15 @@ class tblPedidoController extends Controller {
     }
 
     public function store(StorePedidoRequest $request): JsonResponse {
-        $pedido = tblPedido::create($request->validated());
+        $validated = $request->validated();
+
+        $pedido = tblPedido::create($validated);
+        
+        // Reduce stock in tblColocacion
+        $colocacion = tblColocacion::find($validated['colocacion_id']);
+        $colocacion->cantidad_en_stock -= $validated['cantidad'];
+        $colocacion->save();
+
         return response()->json($pedido, 201);
     }
 
@@ -43,12 +52,41 @@ class tblPedidoController extends Controller {
     }
 
     public function update(UpdatePedidoRequest $request, tblPedido $pedido): JsonResponse {
-        $pedido->update($request->validated());
+        $validated = $request->validated();
+        $oldCantidad = $pedido->cantidad;
+        $oldColocacionId = $pedido->colocacion_id;
+
+        $pedido->update($validated);
+
+        // If colocacion_id changed, adjust both old and new stocks
+        if (isset($validated['colocacion_id']) && $validated['colocacion_id'] != $oldColocacionId) {
+            $oldColocacion = tblColocacion::find($oldColocacionId);
+            $newColocacion = tblColocacion::find($validated['colocacion_id']);
+
+            $oldColocacion->cantidad_en_stock += $oldCantidad;
+            $oldColocacion->save();
+
+            $newColocacion->cantidad_en_stock -= $pedido->cantidad;
+            $newColocacion->save();
+        } elseif (isset($validated['cantidad'])) {
+            // If only cantidad changed, update stock difference
+            $diff = $validated['cantidad'] - $oldCantidad;
+            $colocacion = tblColocacion::find($pedido->colocacion_id);
+            $colocacion->cantidad_en_stock -= $diff;
+            $colocacion->save();
+        }
+
         return response()->json($pedido);
     }
 
     public function destroy(tblPedido $pedido): JsonResponse {
+        // If colcacion is destroyed, restore stock
+        $colocacion = tblColocacion::find($pedido->colocacion_id);
+        $colocacion->cantidad_en_stock += $pedido->cantidad;
+        $colocacion->save();
+
         $pedido->delete();
+
         return response()->json(null, 204);
     }
 }

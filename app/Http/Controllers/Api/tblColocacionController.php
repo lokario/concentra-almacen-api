@@ -25,6 +25,14 @@ class tblColocacionController extends Controller {
             $query->where('precio', '<=', $request->max_precio);
         }
 
+        if ($request->filled('stock_min')) {
+            $query->where('stock', '>=', $request->stock_min);
+        }
+
+        if ($request->filled('stock_max')) {
+            $query->where('stock', '<=', $request->stock_max);
+        }
+
         $colocaciones = $query->paginate($request->input('per_page', 10));
 
         return response()->json([

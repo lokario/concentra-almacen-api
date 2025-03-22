@@ -10,7 +10,7 @@ class tblColocacion extends Model {
 
     protected $table = 'tbl_colocacion';
 
-    protected $fillable = ['articulo_id', 'nombre', 'precio'];
+    protected $fillable = ['articulo_id', 'nombre', 'precio', 'stock'];
 
     public function articulo() {
         return $this->belongsTo(tblArticulo::class, 'articulo_id');

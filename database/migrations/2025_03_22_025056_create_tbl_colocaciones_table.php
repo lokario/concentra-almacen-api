@@ -18,6 +18,7 @@ class CreateTblColocacionesTable extends Migration
             $table->foreignId('articulo_id')->constrained('tbl_articulo');
             $table->string('nombre');
             $table->decimal('precio', 10, 2);
+            $table->integer('stock')->default(0);
             $table->timestamps();
         });
     }
