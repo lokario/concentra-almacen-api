@@ -13,8 +13,11 @@ class CreateTblFacturasTable extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_facturas', function (Blueprint $table) {
+        Schema::create('tbl_factura', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('cliente_id')->constrained('tbl_cliente');
+            $table->dateTime('fecha');
+            $table->decimal('total', 10, 2);
             $table->timestamps();
         });
     }

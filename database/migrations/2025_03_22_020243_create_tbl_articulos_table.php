@@ -13,8 +13,11 @@ class CreateTblArticulosTable extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_articulos', function (Blueprint $table) {
+        Schema::create('tbl_articulo', function (Blueprint $table) {
             $table->id();
+            $table->string('codigo_barras');
+            $table->string('descripcion');
+            $table->string('fabricante');
             $table->timestamps();
         });
     }

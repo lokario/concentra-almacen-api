@@ -13,8 +13,11 @@ class CreateTblClientesTable extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_clientes', function (Blueprint $table) {
+        Schema::create('tbl_cliente', function (Blueprint $table) {
             $table->id();
+            $table->string('nombre');
+            $table->string('telefono');
+            $table->string('tipo');
             $table->timestamps();
         });
     }

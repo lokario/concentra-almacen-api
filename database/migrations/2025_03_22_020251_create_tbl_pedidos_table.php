@@ -13,8 +13,11 @@ class CreateTblPedidosTable extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_pedidos', function (Blueprint $table) {
+       Schema::create('tbl_pedido', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('factura_id')->constrained('tbl_factura');
+            $table->foreignId('colocacion_id')->constrained('tbl_colocacion');
+            $table->integer('cantidad');
             $table->timestamps();
         });
     }

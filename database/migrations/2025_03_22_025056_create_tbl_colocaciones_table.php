@@ -13,8 +13,11 @@ class CreateTblColocacionesTable extends Migration
      */
     public function up()
     {
-        Schema::create('tbl_colocaciones', function (Blueprint $table) {
+        Schema::create('tbl_colocacion', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('articulo_id')->constrained('tbl_articulo');
+            $table->string('nombre');
+            $table->decimal('precio', 10, 2);
             $table->timestamps();
         });
     }
