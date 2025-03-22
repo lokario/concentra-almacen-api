@@ -2,21 +2,27 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class tblPY1 extends Model {
-    use HasFactory;
+
+class tblPY1 extends Authenticatable {
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'tbl_p_y1';
 
     protected $fillable = [
-        'nombre',
+        'username',
         'email',
         'password',
-        'telefono',
+        'first_name',
+        'last_name',
         'cedula',
+        'telefono',
         'tipo_sangre',
+        'sex',
         'rol'
     ];
 }

@@ -21,7 +21,7 @@ class CreateTblPY1STable extends Migration
             $table->string('telefono');
             $table->string('cedula');
             $table->string('tipo_sangre');
-            $table->string('rol');
+            $table->string('rol')->default('user');
             $table->timestamps();
         });
     }
