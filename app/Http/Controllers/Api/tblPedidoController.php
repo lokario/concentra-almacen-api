@@ -10,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 
 class tblPedidoController extends Controller {
     public function index(): JsonResponse {
-        return response()->json(tblPedido::all());
+        return response()->json(tblPedido::all(), 200);
     }
 
     public function store(StorePedidoRequest $request): JsonResponse {

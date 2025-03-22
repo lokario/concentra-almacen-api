@@ -10,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 
 class tblFacturaController extends Controller {
     public function index(): JsonResponse {
-        return response()->json(tblFactura::all());
+        return response()->json(tblFactura::all(), 200);
     }
 
     public function store(StoreFacturaRequest $request): JsonResponse {
