@@ -37,7 +37,18 @@ class tblPedidoController extends Controller {
     public function store(StorePedidoRequest $request): JsonResponse {
         $validated = $request->validated();
 
-        $pedido = tblPedido::create($validated);
+        // Check if a pedido already exists for the same factura + colocacion
+        $pedido = tblPedido::where('factura_id', $validated['factura_id'])
+        ->where('colocacion_id', $validated['colocacion_id'])
+        ->first();
+
+        if ($pedido) {
+            // Merge quantities
+            $pedido->cantidad += $validated['cantidad'];
+            $pedido->save();
+        } else {
+            $pedido = tblPedido::create($validated);
+        }
         
         // Reduce stock in tblColocacion
         $colocacion = tblColocacion::find($validated['colocacion_id']);
