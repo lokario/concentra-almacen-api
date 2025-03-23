@@ -16,6 +16,7 @@ class CreateTblClientesTable extends Migration
         Schema::create('tbl_cliente', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->string('apellido');
             $table->string('telefono');
             $table->string('tipo');
             $table->timestamps();

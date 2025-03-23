@@ -11,7 +11,7 @@ class tblCliente extends Model
 
     protected $table = 'tbl_cliente';
 
-    protected $fillable = ['nombre', 'telefono', 'tipo'];
+    protected $fillable = ['nombre', 'apellido', 'telefono', 'tipo'];
 
     public function facturas() {
         return $this->hasMany(tblFactura::class, 'cliente_id');
