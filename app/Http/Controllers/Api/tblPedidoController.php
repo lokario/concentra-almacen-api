@@ -52,7 +52,7 @@ class tblPedidoController extends Controller {
         
         // Reduce stock in tblColocacion
         $colocacion = tblColocacion::find($validated['colocacion_id']);
-        $colocacion->cantidad_en_stock -= $validated['cantidad'];
+        $colocacion->stock -= $validated['cantidad'];
         $colocacion->save();
 
         return response()->json($pedido, 201);
@@ -78,16 +78,16 @@ class tblPedidoController extends Controller {
             $oldColocacion = tblColocacion::find($oldColocacionId);
             $newColocacion = tblColocacion::find($validated['colocacion_id']);
 
-            $oldColocacion->cantidad_en_stock += $oldCantidad;
+            $oldColocacion->stock += $oldCantidad;
             $oldColocacion->save();
 
-            $newColocacion->cantidad_en_stock -= $pedido->cantidad;
+            $newColocacion->stock -= $pedido->cantidad;
             $newColocacion->save();
         } elseif (isset($validated['cantidad'])) {
             // If only cantidad changed, update stock difference
             $diff = $validated['cantidad'] - $oldCantidad;
             $colocacion = tblColocacion::find($pedido->colocacion_id);
-            $colocacion->cantidad_en_stock -= $diff;
+            $colocacion->stock -= $diff;
             $colocacion->save();
         }
 
@@ -101,7 +101,7 @@ class tblPedidoController extends Controller {
 
         // If colcacion is destroyed, restore stock
         $colocacion = tblColocacion::find($pedido->colocacion_id);
-        $colocacion->cantidad_en_stock += $pedido->cantidad;
+        $colocacion->stock += $pedido->cantidad;
         $colocacion->save();
 
         $pedido->delete();
