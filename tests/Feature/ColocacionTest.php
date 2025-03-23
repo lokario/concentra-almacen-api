@@ -82,6 +82,6 @@ class ColocacionTest extends TestCase
 
         $response = $this->getJson('/api/colocaciones?stock_min=10&stock_max=20');
 
-        $response->assertStatus(200)->assertJsonCount(1, 'data')->assertJsonFragment(['stock' => '15']);
+        $response->assertStatus(200)->assertJsonCount(1, 'data')->assertJsonFragment(['stock' => 15]);
     }
 }
