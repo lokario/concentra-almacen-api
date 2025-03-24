@@ -2,15 +2,14 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
-class Handler extends ExceptionHandler
-{
+class Handler extends ExceptionHandler {
     /**
      * A list of the exception types that are not reported.
      *
@@ -36,8 +35,7 @@ class Handler extends ExceptionHandler
      *
      * @return void
      */
-    public function register()
-    {
+    public function register() {
         $this->reportable(function (Throwable $e) {
             //
         });
@@ -46,25 +44,25 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception) {
         if ($exception instanceof MethodNotAllowedHttpException) {
             return response()->json([
-                'message' => 'Metodo HTTP no permitido.'
+                'message' => 'Metodo HTTP no permitido.',
             ], 405);
         }
 
         if ($exception instanceof AuthorizationException) {
             return response()->json([
-                'message' => 'No autorizado.'
+                'message' => 'No autorizado.',
             ], 403);
         }
 
         if ($exception instanceof NotFoundHttpException) {
             return response()->json([
-                'message' => 'Recurso no encontrado.'
+                'message' => 'Recurso no encontrado.',
             ], 404);
         }
 
         if ($exception instanceof ModelNotFoundException) {
             return response()->json([
-                'message' => 'Registro no encontrado.'
+                'message' => 'Registro no encontrado.',
             ], 404);
         }
 

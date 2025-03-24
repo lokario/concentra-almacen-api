@@ -2,14 +2,12 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\tblArticulo;
 use App\Models\tblColocacion;
+use Illuminate\Database\Seeder;
 
-class tblColocacionSeeder extends Seeder
-{
-    public function run(): void
-    {
+class tblColocacionSeeder extends Seeder {
+    public function run(): void {
         $articulos = tblArticulo::all();
 
         foreach ($articulos as $articulo) {

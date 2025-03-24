@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\tblColocacion;
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreColocacionRequest;
 use App\Http\Requests\UpdateColocacionRequest;
+use App\Models\tblColocacion;
 use App\Support\Constants;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class tblColocacionController extends Controller {
     public function index(Request $request): JsonResponse {
@@ -21,11 +21,11 @@ class tblColocacionController extends Controller {
         $colocaciones = $query->paginate($request->input('per_page', 10));
 
         return response()->json([
-            'data' => $colocaciones->items(),
-            'total' => $colocaciones->total(),
-            'per_page' => $colocaciones->perPage(),
+            'data'         => $colocaciones->items(),
+            'total'        => $colocaciones->total(),
+            'per_page'     => $colocaciones->perPage(),
             'current_page' => $colocaciones->currentPage(),
-            'last_page' => $colocaciones->lastPage()
+            'last_page'    => $colocaciones->lastPage(),
         ], 200);
     }
 

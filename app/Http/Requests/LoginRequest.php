@@ -3,11 +3,10 @@
 namespace App\Http\Requests;
 
 use App\Models\tblPY1;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Support\Facades\Hash;
 
 class LoginRequest extends FormRequest {
     public function authorize(): bool {
@@ -19,7 +18,7 @@ class LoginRequest extends FormRequest {
 
         if (! $user || ! Hash::check($this->input('password'), $user->password)) {
             throw new HttpResponseException(response()->json([
-            'message' => 'Credenciales incorrectas.'
+            'message' => 'Credenciales incorrectas.',
         ], 422));
         }
 
@@ -28,15 +27,15 @@ class LoginRequest extends FormRequest {
 
     public function rules(): array {
         return [
-            'usuario' => 'required|string',
-            'password' => 'required|string'
+            'usuario'  => 'required|string',
+            'password' => 'required|string',
         ];
     }
 
     protected function failedValidation(Validator $validator) {
         throw new HttpResponseException(response()->json([
             'message' => 'Error en la validación de las credenciales.',
-            'errors' => $validator->errors()
+            'errors'  => $validator->errors(),
         ], 422));
     }
 }

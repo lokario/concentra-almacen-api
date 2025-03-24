@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdatePedidoRequest extends FormRequest {
     public function authorize(): bool {
@@ -13,16 +13,16 @@ class UpdatePedidoRequest extends FormRequest {
 
     public function rules(): array {
         return [
-            'factura_id' => 'sometimes|exists:tbl_factura,id',
+            'factura_id'    => 'sometimes|exists:tbl_factura,id',
             'colocacion_id' => 'sometimes|exists:tbl_colocacion,id',
-            'cantidad' => 'sometimes|integer|min:1'
+            'cantidad'      => 'sometimes|integer|min:1',
         ];
     }
 
     protected function failedValidation(Validator $validator) {
         throw new HttpResponseException(response()->json([
             'message' => 'Error en la validación de los datos.',
-            'errors' => $validator->errors()
+            'errors'  => $validator->errors(),
         ], 422));
     }
 }

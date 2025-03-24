@@ -4,15 +4,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTblColocacionesTable extends Migration
-{
+class CreateTblColocacionesTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('tbl_colocacion', function (Blueprint $table) {
             $table->id();
             $table->foreignId('articulo_id')->constrained('tbl_articulo');
@@ -26,8 +24,7 @@ class CreateTblColocacionesTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('tbl_colocacion');
     }
 }

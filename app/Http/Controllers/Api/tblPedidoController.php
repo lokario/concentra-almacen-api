@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\tblPedido;
-use App\Models\tblColocacion;
-use Illuminate\Http\Request;
-
 use App\Http\Requests\StorePedidoRequest;
 use App\Http\Requests\UpdatePedidoRequest;
+use App\Models\tblColocacion;
+use App\Models\tblPedido;
 use App\Support\Constants;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class tblPedidoController extends Controller {
     public function index(Request $request): JsonResponse {
@@ -27,22 +26,22 @@ class tblPedidoController extends Controller {
         $pedidos = $query->paginate($request->input('per_page', 10));
 
         return response()->json([
-            'data' => $pedidos->items(),
-            'total' => $pedidos->total(),
-            'per_page' => $pedidos->perPage(),
+            'data'         => $pedidos->items(),
+            'total'        => $pedidos->total(),
+            'per_page'     => $pedidos->perPage(),
             'current_page' => $pedidos->currentPage(),
-            'last_page' => $pedidos->lastPage()
+            'last_page'    => $pedidos->lastPage(),
         ], 200);
     }
 
     public function store(StorePedidoRequest $request): JsonResponse {
-        $validated = $request->validated();
+        $validated  = $request->validated();
         $colocacion = tblColocacion::with('articulo')->findOrFail($validated['colocacion_id']);
-        $articulo = $colocacion->articulo;
+        $articulo   = $colocacion->articulo;
 
         if ($articulo->stock < $validated['cantidad']) {
             return response()->json([
-                'message' => 'No hay suficiente stock para este artículo.'
+                'message' => 'No hay suficiente stock para este artículo.',
             ], 400);
         }
 
@@ -58,7 +57,7 @@ class tblPedidoController extends Controller {
         } else {
             $pedido = tblPedido::create($validated);
         }
-        
+
         // Reduce stock in tblColocacion
         $articulo->stock -= $validated['cantidad'];
         $articulo->save();
@@ -74,7 +73,7 @@ class tblPedidoController extends Controller {
         if (auth()->user()->rol !== Constants::ROL_ADMIN) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
-        
+
         $validated = $request->validated();
 
         $oldColocacion = tblColocacion::with('articulo')->findOrFail($pedido->colocacion_id);
@@ -92,7 +91,7 @@ class tblPedidoController extends Controller {
 
             if ($diferencia > 0 && $newArticulo->stock < $diferencia) {
                 return response()->json([
-                    'message' => 'No hay suficiente stock para aumentar la cantidad.'
+                    'message' => 'No hay suficiente stock para aumentar la cantidad.',
                 ], 400);
             }
 
@@ -102,7 +101,7 @@ class tblPedidoController extends Controller {
             // Different artículos — restore stock to old, reduce from new
             if ($newArticulo->stock < $newCantidad) {
                 return response()->json([
-                    'message' => 'No hay suficiente stock en el nuevo artículo.'
+                    'message' => 'No hay suficiente stock en el nuevo artículo.',
                 ], 400);
             }
 

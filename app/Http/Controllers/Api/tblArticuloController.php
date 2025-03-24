@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\tblArticulo;
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreArticuloRequest;
 use App\Http\Requests\UpdateArticuloRequest;
+use App\Models\tblArticulo;
 use App\Support\Constants;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class tblArticuloController extends Controller {
     public function index(Request $request): JsonResponse {
@@ -41,11 +41,11 @@ class tblArticuloController extends Controller {
         $articulos = $query->paginate($request->input('per_page', 10));
 
         return response()->json([
-            'data' => $articulos->items(),
-            'total' => $articulos->total(),
-            'per_page' => $articulos->perPage(),
+            'data'         => $articulos->items(),
+            'total'        => $articulos->total(),
+            'per_page'     => $articulos->perPage(),
             'current_page' => $articulos->currentPage(),
-            'last_page' => $articulos->lastPage()
+            'last_page'    => $articulos->lastPage(),
         ], 200);
     }
 
@@ -62,7 +62,7 @@ class tblArticuloController extends Controller {
         if (auth()->user()->rol !== Constants::ROL_ADMIN) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
-        
+
         $articulo->update($request->validated());
         return response()->json($articulo);
     }

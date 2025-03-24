@@ -5,15 +5,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTblFacturasTable extends Migration
-{
+class CreateTblFacturasTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('tbl_factura', function (Blueprint $table) {
             $table->id();
             $table->foreignId('cliente_id')->constrained('tbl_cliente');
@@ -28,8 +26,7 @@ class CreateTblFacturasTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('tbl_factura');
     }
 }

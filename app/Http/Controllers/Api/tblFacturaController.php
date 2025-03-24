@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\tblFactura;
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreFacturaRequest;
 use App\Http\Requests\UpdateFacturaRequest;
+use App\Models\tblFactura;
 use App\Support\Constants;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class tblFacturaController extends Controller {
     public function index(Request $request): JsonResponse {
@@ -29,11 +29,11 @@ class tblFacturaController extends Controller {
         $facturas = $query->paginate($request->input('per_page', 10));
 
         return response()->json([
-            'data' => $facturas->items(),
-            'total' => $facturas->total(),
-            'per_page' => $facturas->perPage(),
+            'data'         => $facturas->items(),
+            'total'        => $facturas->total(),
+            'per_page'     => $facturas->perPage(),
             'current_page' => $facturas->currentPage(),
-            'last_page' => $facturas->lastPage()
+            'last_page'    => $facturas->lastPage(),
         ], 200);
     }
 
@@ -54,7 +54,7 @@ class tblFacturaController extends Controller {
         if ($factura->estado === Constants::FACTURA_CANCELADA) {
             return response()->json(['message' => 'No se puede modificar una factura cancelada.'], 403);
         }
-        
+
         $factura->update($request->validated());
         return response()->json($factura);
     }

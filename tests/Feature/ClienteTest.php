@@ -7,33 +7,29 @@ use App\Models\tblPY1;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class ClienteTest extends TestCase
-{
+class ClienteTest extends TestCase {
     use RefreshDatabase;
 
     protected $user;
 
-    protected function setUp(): void
-    {
+    protected function setUp(): void {
         parent::setUp();
 
         $this->user = tblPY1::factory()->create();
     }
 
-    private function authHeaders(): array
-    {
+    private function authHeaders(): array {
         $token = $this->user->createToken('test')->plainTextToken;
 
         return ['Authorization' => 'Bearer ' . $token];
     }
 
-    public function testCreatesClienteSuccessfully(): void
-    {
+    public function testCreatesClienteSuccessfully(): void {
         $data = [
-            'nombre' => 'Juan',
+            'nombre'   => 'Juan',
             'apellido' => 'Diaz',
             'telefono' => '8091234567',
-            'tipo' => 'regular',
+            'tipo'     => 'regular',
         ];
 
         $response = $this->postJson('/api/clientes', $data, $this->authHeaders());
@@ -41,15 +37,13 @@ class ClienteTest extends TestCase
         $response->assertStatus(201)->assertJsonFragment(['nombre' => 'Juan', 'apellido' => 'Diaz']);
     }
 
-    public function testFailsToCreateClienteWithInvalidData(): void
-    {
+    public function testFailsToCreateClienteWithInvalidData(): void {
         $response = $this->postJson('/api/clientes', [], $this->authHeaders());
 
         $response->assertStatus(422)->assertJsonValidationErrors(['nombre', 'telefono', 'tipo']);
     }
 
-    public function testListsClientesWithPagination(): void
-    {
+    public function testListsClientesWithPagination(): void {
         tblCliente::factory()->count(10)->create();
 
         $response = $this->getJson('/api/clientes', $this->authHeaders());
@@ -64,15 +58,13 @@ class ClienteTest extends TestCase
             ]);
     }
 
-    public function testReturns404ForInvalidClienteId(): void
-    {
+    public function testReturns404ForInvalidClienteId(): void {
         $response = $this->getJson('/api/clientes/999', $this->authHeaders());
 
         $response->assertStatus(404);
     }
 
-    public function testUpdatesClienteSuccessfully(): void
-    {
+    public function testUpdatesClienteSuccessfully(): void {
         $cliente = tblCliente::factory()->create();
 
         $data = ['nombre' => 'Nuevo Nombre'];
@@ -82,8 +74,7 @@ class ClienteTest extends TestCase
         $response->assertStatus(200)->assertJsonFragment(['nombre' => 'Nuevo Nombre']);
     }
 
-    public function testDeletesClienteSuccessfully(): void
-    {
+    public function testDeletesClienteSuccessfully(): void {
         $cliente = tblCliente::factory()->create();
 
         $response = $this->deleteJson("/api/clientes/{$cliente->id}", [], $this->authHeaders());
@@ -92,8 +83,7 @@ class ClienteTest extends TestCase
         $this->assertDatabaseMissing('tbl_cliente', ['id' => $cliente->id]);
     }
 
-    public function testFiltersClientesByTipo(): void
-    {
+    public function testFiltersClientesByTipo(): void {
         tblCliente::factory()->create(['tipo' => 'regular']);
         tblCliente::factory()->create(['tipo' => 'preferente']);
 
@@ -104,10 +94,9 @@ class ClienteTest extends TestCase
         $response->assertJsonFragment(['tipo' => 'regular']);
     }
 
-    public function testRejectsInvalidTipo(): void
-    {
+    public function testRejectsInvalidTipo(): void {
         $data = tblCliente::factory()->make([
-            'tipo' => 'vip'
+            'tipo' => 'vip',
         ])->toArray();
 
         $this->actingAs($this->user)->postJson('/api/clientes', $data)->assertStatus(422)->assertJsonValidationErrors(['tipo']);

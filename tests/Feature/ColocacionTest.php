@@ -2,32 +2,29 @@
 
 namespace Tests\Feature;
 
+use App\Models\tblArticulo;
 use App\Models\tblColocacion;
 use App\Models\tblPY1;
-use App\Models\tblArticulo;
 use App\Support\Constants;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class ColocacionTest extends TestCase
-{
+class ColocacionTest extends TestCase {
     use RefreshDatabase;
 
     protected $user;
 
-    protected function setUp(): void
-    {
+    protected function setUp(): void {
         parent::setUp();
         $this->user = tblPY1::factory()->create(['rol' => Constants::ROL_ADMIN]);
         Sanctum::actingAs($this->user);
     }
 
-    public function testCreatesColocacionSuccessfully(): void
-    {
+    public function testCreatesColocacionSuccessfully(): void {
         $data = [
             'articulo_id' => tblArticulo::factory()->create()->id,
-            'lugar' => 'Estante A',
+            'lugar'       => 'Estante A',
         ];
 
         $response = $this->postJson('/api/colocaciones', $data);
@@ -35,26 +32,23 @@ class ColocacionTest extends TestCase
         $response->assertStatus(201)->assertJsonFragment(['lugar' => 'Estante A']);
     }
 
-    public function testFailsToCreateColocacionWithInvalidData(): void
-    {
+    public function testFailsToCreateColocacionWithInvalidData(): void {
         $response = $this->postJson('/api/colocaciones', []);
 
         $response->assertStatus(422)->assertJsonValidationErrors(['articulo_id', 'lugar']);
     }
 
-    public function testUpdatesColocacionSuccessfully(): void
-    {
+    public function testUpdatesColocacionSuccessfully(): void {
         $colocacion = tblColocacion::factory()->create();
 
         $response = $this->putJson("/api/colocaciones/{$colocacion->id}", [
-            'lugar' => 'Estante X'
+            'lugar' => 'Estante X',
         ]);
 
         $response->assertStatus(200)->assertJsonFragment(['lugar' => 'Estante X']);
     }
 
-    public function testDeletesColocacionSuccessfully(): void
-    {
+    public function testDeletesColocacionSuccessfully(): void {
         $colocacion = tblColocacion::factory()->create();
 
         $response = $this->deleteJson("/api/colocaciones/{$colocacion->id}");
@@ -63,8 +57,7 @@ class ColocacionTest extends TestCase
         $this->assertDatabaseMissing('tbl_colocacion', ['id' => $colocacion->id]);
     }
 
-    public function testListsColocacionesWithPagination(): void
-    {
+    public function testListsColocacionesWithPagination(): void {
         tblColocacion::factory()->count(10)->create();
 
         $response = $this->getJson('/api/colocaciones');
@@ -72,11 +65,10 @@ class ColocacionTest extends TestCase
         $response->assertStatus(200)->assertJsonStructure(['data', 'total', 'per_page', 'current_page', 'last_page']);
     }
 
-    public function testRejectsInvalidArticuloId(): void
-    {
+    public function testRejectsInvalidArticuloId(): void {
         $data = [
             'articulo_id' => 9999,
-            'lugar' => 'Estante D',
+            'lugar'       => 'Estante D',
         ];
 
         $this->postJson('/api/colocaciones', $data)->assertStatus(422)->assertJsonValidationErrors(['articulo_id']);

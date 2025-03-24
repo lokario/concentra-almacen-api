@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class tblPY1 extends Authenticatable {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
     protected $table = 'tbl_p_y1';
 
@@ -22,6 +24,6 @@ class tblPY1 extends Authenticatable {
         'telefono',
         'tipo_sangre',
         'sexo',
-        'rol'
+        'rol',
     ];
 }

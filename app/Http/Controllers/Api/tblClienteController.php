@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Models\tblCliente;
 use App\Http\Requests\StoreClienteRequest;
 use App\Http\Requests\UpdateClienteRequest;
+use App\Models\tblCliente;
 use App\Support\Constants;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class tblClienteController extends Controller {
     public function index(Request $request): JsonResponse {
@@ -22,15 +22,15 @@ class tblClienteController extends Controller {
             $query->where('tipo', $request->tipo);
         }
 
-        $perPage = $request->input('per_page', 12);
+        $perPage  = $request->input('per_page', 12);
         $clientes = $query->paginate($perPage);
 
         return response()->json([
-            'data' => $clientes->items(),
-            'total' => $clientes->total(),
-            'per_page' => $clientes->perPage(),
+            'data'         => $clientes->items(),
+            'total'        => $clientes->total(),
+            'per_page'     => $clientes->perPage(),
             'current_page' => $clientes->currentPage(),
-            'last_page' => $clientes->lastPage(),
+            'last_page'    => $clientes->lastPage(),
         ], 200);
     }
 
@@ -48,7 +48,7 @@ class tblClienteController extends Controller {
         if (auth()->user()->rol !== Constants::ROL_ADMIN) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
-        
+
         $cliente->update($request->validated());
 
         return response()->json($cliente);

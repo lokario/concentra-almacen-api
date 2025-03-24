@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateColocacionRequest extends FormRequest {
     public function authorize(): bool {
@@ -14,14 +14,14 @@ class UpdateColocacionRequest extends FormRequest {
     public function rules(): array {
         return [
             'articulo_id' => 'sometimes|exists:tbl_articulo,id',
-            'lugar' => 'sometimes|string|max:255',
+            'lugar'       => 'sometimes|string|max:255',
         ];
     }
 
     protected function failedValidation(Validator $validator) {
         throw new HttpResponseException(response()->json([
             'message' => 'Error en la validación de los datos.',
-            'errors' => $validator->errors()
+            'errors'  => $validator->errors(),
         ], 422));
     }
 }

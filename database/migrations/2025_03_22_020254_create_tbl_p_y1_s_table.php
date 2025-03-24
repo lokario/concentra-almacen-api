@@ -5,15 +5,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTblPY1STable extends Migration
-{
+class CreateTblPY1STable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('tbl_p_y1', function (Blueprint $table) {
             $table->id();
             $table->string('usuario')->unique();
@@ -35,8 +33,7 @@ class CreateTblPY1STable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('tbl_p_y1');
     }
 }
