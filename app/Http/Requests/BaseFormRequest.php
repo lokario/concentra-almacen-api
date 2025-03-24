@@ -31,6 +31,9 @@ abstract class BaseFormRequest extends FormRequest {
             'telefono'              => 'teléfono',
             'cedula'                => 'cédula',
             'tipo_sangre'           => 'tipo de sangre',
+            'articulo_id'           => 'artículo',
+            'cliente_id'            => 'cliente',
+            'colocacion_id'         => 'colocación',
         ];
     }
 

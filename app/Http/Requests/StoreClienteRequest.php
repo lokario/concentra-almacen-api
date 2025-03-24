@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-
 class StoreClienteRequest extends BaseFormRequest {
     public function rules(): array {
         return [
