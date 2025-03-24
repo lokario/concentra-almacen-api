@@ -23,11 +23,11 @@ class tblArticuloController extends Controller {
         }
 
         if ($request->filled('precio_min')) {
-            $query->where('precio', '>=', $request->min_precio);
+            $query->where('precio', '>=', $request->precio_min);
         }
 
         if ($request->filled('precio_max')) {
-            $query->where('precio', '<=', $request->max_precio);
+            $query->where('precio', '<=', $request->precio_max);
         }
 
         if ($request->filled('stock_min')) {
