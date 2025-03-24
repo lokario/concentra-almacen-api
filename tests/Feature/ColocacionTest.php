@@ -70,4 +70,14 @@ class ColocacionTest extends TestCase
 
         $response->assertStatus(200)->assertJsonStructure(['data', 'total', 'per_page', 'current_page', 'last_page']);
     }
+
+    public function testRejectsInvalidArticuloId(): void
+    {
+        $data = [
+            'articulo_id' => 9999,
+            'lugar' => 'Estante D',
+        ];
+
+        $this->postJson('/api/colocaciones', $data)->assertStatus(422)->assertJsonValidationErrors(['articulo_id']);
+    }
 }
