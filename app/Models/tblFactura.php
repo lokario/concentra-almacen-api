@@ -10,7 +10,7 @@ class tblFactura extends Model {
 
     protected $table = 'tbl_factura';
 
-    protected $fillable = ['cliente_id', 'fecha', 'total'];
+    protected $fillable = ['cliente_id', 'fecha'];
 
     public function cliente() {
         return $this->belongsTo(tblCliente::class, 'cliente_id');
@@ -18,5 +18,12 @@ class tblFactura extends Model {
 
     public function pedidos() {
         return $this->hasMany(tblPedido::class, 'factura_id');
+    }
+
+    public function getTotalAttribute(): float {
+        return $this->pedidos->sum(function ($pedido) {
+            $precio = $pedido->colocacion->articulo->precio ?? 0;
+            return $pedido->cantidad * $precio;
+        });
     }
 }

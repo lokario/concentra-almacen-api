@@ -10,7 +10,7 @@ class tblArticulo extends Model {
 
     protected $table = 'tbl_articulo';
 
-    protected $fillable = ['codigo_barras', 'descripcion', 'fabricante'];
+    protected $fillable = ['codigo_barras', 'descripcion', 'fabricante', 'precio', 'stock'];
 
     public function colocaciones() {
         return $this->hasMany(tblColocacion::class, 'articulo_id');

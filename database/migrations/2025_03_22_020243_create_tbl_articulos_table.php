@@ -18,6 +18,8 @@ class CreateTblArticulosTable extends Migration
             $table->string('codigo_barras');
             $table->string('descripcion');
             $table->string('fabricante');
+            $table->decimal('precio', 10, 2);
+            $table->integer('stock')->default(0);
             $table->timestamps();
         });
     }

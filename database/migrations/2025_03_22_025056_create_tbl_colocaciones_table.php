@@ -16,9 +16,7 @@ class CreateTblColocacionesTable extends Migration
         Schema::create('tbl_colocacion', function (Blueprint $table) {
             $table->id();
             $table->foreignId('articulo_id')->constrained('tbl_articulo');
-            $table->string('nombre');
-            $table->decimal('precio', 10, 2);
-            $table->integer('stock')->default(0);
+            $table->string('lugar');
             $table->timestamps();
         });
     }

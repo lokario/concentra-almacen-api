@@ -17,7 +17,6 @@ class CreateTblFacturasTable extends Migration
             $table->id();
             $table->foreignId('cliente_id')->constrained('tbl_cliente');
             $table->dateTime('fecha');
-            $table->decimal('total', 10, 2);
             $table->timestamps();
         });
     }
