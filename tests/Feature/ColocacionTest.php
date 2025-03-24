@@ -26,21 +26,19 @@ class ColocacionTest extends TestCase
     {
         $data = [
             'articulo_id' => tblArticulo::factory()->create()->id,
-            'nombre' => 'Ubicación A',
-            'precio' => 25.50,
-            'stock' => 10
+            'lugar' => 'Estante A',
         ];
 
         $response = $this->postJson('/api/colocaciones', $data);
 
-        $response->assertStatus(201)->assertJsonFragment(['nombre' => 'Ubicación A']);
+        $response->assertStatus(201)->assertJsonFragment(['lugar' => 'Estante A']);
     }
 
     public function testFailsToCreateColocacionWithInvalidData(): void
     {
         $response = $this->postJson('/api/colocaciones', []);
 
-        $response->assertStatus(422)->assertJsonValidationErrors(['articulo_id', 'nombre', 'precio']);
+        $response->assertStatus(422)->assertJsonValidationErrors(['articulo_id', 'lugar']);
     }
 
     public function testUpdatesColocacionSuccessfully(): void
@@ -48,12 +46,10 @@ class ColocacionTest extends TestCase
         $colocacion = tblColocacion::factory()->create();
 
         $response = $this->putJson("/api/colocaciones/{$colocacion->id}", [
-            'nombre' => 'Ubicación Actualizada'
+            'lugar' => 'Estante X'
         ]);
 
-        $response->dump();
-
-        $response->assertStatus(200)->assertJsonFragment(['nombre' => 'Ubicación Actualizada']);
+        $response->assertStatus(200)->assertJsonFragment(['lugar' => 'Estante X']);
     }
 
     public function testDeletesColocacionSuccessfully(): void
@@ -73,15 +69,5 @@ class ColocacionTest extends TestCase
         $response = $this->getJson('/api/colocaciones');
 
         $response->assertStatus(200)->assertJsonStructure(['data', 'total', 'per_page', 'current_page', 'last_page']);
-    }
-
-    public function testFiltersColocacionesByStockRange(): void
-    {
-        tblColocacion::factory()->create(['stock' => 5]);
-        tblColocacion::factory()->create(['stock' => 15]);
-
-        $response = $this->getJson('/api/colocaciones?stock_min=10&stock_max=20');
-
-        $response->assertStatus(200)->assertJsonCount(1, 'data')->assertJsonFragment(['stock' => 15]);
     }
 }

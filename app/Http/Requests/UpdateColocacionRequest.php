@@ -14,8 +14,7 @@ class UpdateColocacionRequest extends FormRequest {
     public function rules(): array {
         return [
             'articulo_id' => 'sometimes|exists:tbl_articulo,id',
-            'nombre' => 'sometimes|string|max:100',
-            'precio' => 'sometimes|numeric|min:0'
+            'lugar' => 'sometimes|string|max:255',
         ];
     }
 

@@ -30,14 +30,15 @@ class ClienteTest extends TestCase
     public function testCreatesClienteSuccessfully(): void
     {
         $data = [
-            'nombre' => 'Juan Diaz',
+            'nombre' => 'Juan',
+            'apellido' => 'Diaz',
             'telefono' => '8091234567',
             'tipo' => 'regular',
         ];
 
         $response = $this->postJson('/api/clientes', $data, $this->authHeaders());
 
-        $response->assertStatus(201)->assertJsonFragment(['nombre' => 'Juan Diaz']);
+        $response->assertStatus(201)->assertJsonFragment(['nombre' => 'Juan', 'apellido' => 'Diaz']);
     }
 
     public function testFailsToCreateClienteWithInvalidData(): void

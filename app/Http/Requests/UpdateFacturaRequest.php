@@ -15,7 +15,6 @@ class UpdateFacturaRequest extends FormRequest {
         return [
             'cliente_id' => 'sometimes|exists:tbl_cliente,id',
             'fecha' => 'sometimes|date',
-            'total' => 'sometimes|numeric|min:0'
         ];
     }
 

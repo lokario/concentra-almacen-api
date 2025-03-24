@@ -25,12 +25,14 @@ class ArticuloTest extends TestCase
     {
         $data = [
             'codigo_barras' => '1234567890123',
-            'descripcion' => 'Artículo de prueba',
-            'fabricante' => 'ConcentraTech'
+            'descripcion' => 'iPhone 16',
+            'fabricante' => 'Apple',
+            'precio' => 1200,
+            'stock' => 1000
         ];
 
         $response = $this->postJson('/api/articulos', $data);
-        $response->assertStatus(201)->assertJsonFragment(['descripcion' => 'Artículo de prueba']);
+        $response->assertStatus(201)->assertJsonFragment(['descripcion' => 'iPhone 16']);
     }
 
     public function testFailsToCreateArticuloWithInvalidData(): void

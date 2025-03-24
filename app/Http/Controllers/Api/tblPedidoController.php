@@ -36,6 +36,14 @@ class tblPedidoController extends Controller {
 
     public function store(StorePedidoRequest $request): JsonResponse {
         $validated = $request->validated();
+        $colocacion = tblColocacion::with('articulo')->findOrFail($validated['colocacion_id']);
+        $articulo = $colocacion->articulo;
+
+        if ($articulo->stock < $validated['cantidad']) {
+            return response()->json([
+                'message' => 'No hay suficiente stock para este artículo.'
+            ], 400);
+        }
 
         // Check if a pedido already exists for the same factura + colocacion
         $pedido = tblPedido::where('factura_id', $validated['factura_id'])
@@ -51,9 +59,8 @@ class tblPedidoController extends Controller {
         }
         
         // Reduce stock in tblColocacion
-        $colocacion = tblColocacion::find($validated['colocacion_id']);
-        $colocacion->stock -= $validated['cantidad'];
-        $colocacion->save();
+        $articulo->stock -= $validated['cantidad'];
+        $articulo->save();
 
         return response()->json($pedido, 201);
     }
@@ -68,28 +75,44 @@ class tblPedidoController extends Controller {
         }
         
         $validated = $request->validated();
+
+        $oldColocacion = tblColocacion::with('articulo')->findOrFail($pedido->colocacion_id);
+        $newColocacion = tblColocacion::with('articulo')->findOrFail($validated['colocacion_id']);
+
+        $oldArticulo = $oldColocacion->articulo;
+        $newArticulo = $newColocacion->articulo;
+
         $oldCantidad = $pedido->cantidad;
-        $oldColocacionId = $pedido->colocacion_id;
+        $newCantidad = $validated['cantidad'];
+
+        // If artículo is the same, we only need to handle stock difference
+        if ($oldArticulo->id === $newArticulo->id) {
+            $diferencia = $newCantidad - $oldCantidad;
+
+            if ($diferencia > 0 && $newArticulo->stock < $diferencia) {
+                return response()->json([
+                    'message' => 'No hay suficiente stock para aumentar la cantidad.'
+                ], 400);
+            }
+
+            $newArticulo->stock -= $diferencia;
+            $newArticulo->save();
+        } else {
+            // Different artículos — restore stock to old, reduce from new
+            if ($newArticulo->stock < $newCantidad) {
+                return response()->json([
+                    'message' => 'No hay suficiente stock en el nuevo artículo.'
+                ], 400);
+            }
+
+            $oldArticulo->stock += $oldCantidad;
+            $newArticulo->stock -= $newCantidad;
+
+            $oldArticulo->save();
+            $newArticulo->save();
+        }
 
         $pedido->update($validated);
-
-        // If colocacion_id changed, adjust both old and new stocks
-        if (isset($validated['colocacion_id']) && $validated['colocacion_id'] != $oldColocacionId) {
-            $oldColocacion = tblColocacion::find($oldColocacionId);
-            $newColocacion = tblColocacion::find($validated['colocacion_id']);
-
-            $oldColocacion->stock += $oldCantidad;
-            $oldColocacion->save();
-
-            $newColocacion->stock -= $pedido->cantidad;
-            $newColocacion->save();
-        } elseif (isset($validated['cantidad'])) {
-            // If only cantidad changed, update stock difference
-            $diff = $validated['cantidad'] - $oldCantidad;
-            $colocacion = tblColocacion::find($pedido->colocacion_id);
-            $colocacion->stock -= $diff;
-            $colocacion->save();
-        }
 
         return response()->json($pedido);
     }
@@ -99,10 +122,10 @@ class tblPedidoController extends Controller {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
-        // If colcacion is destroyed, restore stock
-        $colocacion = tblColocacion::find($pedido->colocacion_id);
-        $colocacion->stock += $pedido->cantidad;
-        $colocacion->save();
+        // If pedido is destroyed, restore stock
+        $articulo = $pedido->colocacion->articulo;
+        $articulo->stock += $pedido->cantidad;
+        $articulo->save();
 
         $pedido->delete();
 
