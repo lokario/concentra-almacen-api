@@ -30,6 +30,6 @@ class CreateTblFacturasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_facturas');
+        Schema::dropIfExists('tbl_factura');
     }
 }

@@ -29,6 +29,6 @@ class CreateTblPedidosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_pedidos');
+        Schema::dropIfExists('tbl_pedido');
     }
 }

@@ -31,6 +31,6 @@ class CreateTblArticulosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_articulos');
+        Schema::dropIfExists('tbl_articulo');
     }
 }

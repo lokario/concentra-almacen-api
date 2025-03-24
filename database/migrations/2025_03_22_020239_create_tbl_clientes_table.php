@@ -30,6 +30,6 @@ class CreateTblClientesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_clientes');
+        Schema::dropIfExists('tbl_cliente');
     }
 }

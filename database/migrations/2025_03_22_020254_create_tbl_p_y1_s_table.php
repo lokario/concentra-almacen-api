@@ -37,6 +37,6 @@ class CreateTblPY1STable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_p_y1_s');
+        Schema::dropIfExists('tbl_p_y1');
     }
 }

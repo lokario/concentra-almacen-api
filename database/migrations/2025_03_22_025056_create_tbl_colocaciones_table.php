@@ -28,6 +28,6 @@ class CreateTblColocacionesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_colocaciones');
+        Schema::dropIfExists('tbl_colocacion');
     }
 }
