@@ -83,4 +83,39 @@ class FacturaTest extends TestCase
 
         $response->assertStatus(200)->assertJsonCount(1, 'data');
     }
+
+    public function testRejectsInvalidClienteId(): void
+    {
+        $data = [
+            'cliente_id' => 9999,
+            'fecha' => now()->toDateString(),
+        ];
+
+        $this->postJson('/api/facturas', $data)->assertStatus(422)->assertJsonValidationErrors(['cliente_id']);
+    }
+
+    public function testRejectsInvalidFechaFormat(): void
+    {
+        $cliente = tblCliente::factory()->create();
+
+        $data = [
+            'cliente_id' => $cliente->id,
+            'fecha' => 'hello-world',
+        ];
+
+        $this->postJson('/api/facturas', $data)->assertStatus(422)->assertJsonValidationErrors(['fecha']);
+    }
+
+    public function testFailsToUpdateWithInvalidData(): void
+    {
+        $factura = tblFactura::factory()->create();
+
+        $invalid = [
+            'cliente_id' => null,
+            'fecha' => 'invalid-date',
+        ];
+
+        $this->putJson("/api/facturas/{$factura->id}", $invalid)->assertStatus(422)
+            ->assertJsonValidationErrors(['cliente_id', 'fecha']);
+    }
 }
