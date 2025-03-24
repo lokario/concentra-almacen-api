@@ -14,8 +14,7 @@ class StoreColocacionRequest extends FormRequest {
     public function rules(): array {
         return [
             'articulo_id' => 'required|exists:tbl_articulo,id',
-            'nombre' => 'required|string|max:100',
-            'precio' => 'required|numeric|min:0'
+            'lugar' => 'required|string|max:255',
         ];
     }
 

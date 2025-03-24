@@ -11,8 +11,7 @@ class tblFacturaFactory extends Factory
     {
         return [
             'cliente_id' => tblCliente::factory(),
-            'fecha' => $this->faker->date(),
-            'total' => $this->faker->randomFloat(2, 100, 1000),
+            'fecha' => $this->faker->date()
         ];
     }
 }

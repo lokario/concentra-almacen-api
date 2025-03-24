@@ -14,8 +14,7 @@ class StoreFacturaRequest extends FormRequest {
     public function rules(): array {
         return [
             'cliente_id' => 'required|exists:tbl_cliente,id',
-            'fecha' => 'required|date',
-            'total' => 'required|numeric|min:0'
+            'fecha' => 'required|date'
         ];
     }
 

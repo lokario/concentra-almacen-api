@@ -13,9 +13,11 @@ class StoreArticuloRequest extends FormRequest {
 
     public function rules(): array {
         return [
-            'codigo_barras' => 'required|string|max:100',
+            'codigo_barras' => 'required|string|max:100|unique:tbl_articulos,codigo_barras',
             'descripcion' => 'required|string|max:255',
-            'fabricante' => 'required|string|max:100'
+            'fabricante' => 'required|string|max:100',
+            'precio' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
         ];
     }
 

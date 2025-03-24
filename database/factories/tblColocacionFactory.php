@@ -11,9 +11,7 @@ class tblColocacionFactory extends Factory
     {
         return [
             'articulo_id' => tblArticulo::factory(),
-            'nombre' => $this->faker->word,
-            'precio' => $this->faker->randomFloat(2, 5, 100),
-            'stock' => $this->faker->numberBetween(1, 20),
+            'lugar' => 'Estante ' . strtoupper($this->faker->randomLetter),
         ];
     }
 }
