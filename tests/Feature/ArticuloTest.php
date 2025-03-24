@@ -79,4 +79,39 @@ class ArticuloTest extends TestCase
             ->assertJsonFragment(['fabricante' => 'FiltroMatch'])
             ->assertJsonMissing(['fabricante' => 'OtroFabricante']);
     }
+
+    public function testCannotCreateDuplicateCodigoBarras(): void
+    {
+        $codigo = '5449000000996';
+
+        tblArticulo::factory()->create(['codigo_barras' => $codigo]);
+
+        $data = tblArticulo::factory()->make([
+            'codigo_barras' => $codigo,
+        ])->toArray();
+
+        $this->postJson('/api/articulos', $data)->assertStatus(422)->assertJsonValidationErrors(['codigo_barras']);
+    }
+
+    public function testCannotCreateArticuloWithNegativeValues(): void
+    {
+        $data = tblArticulo::factory()->make([
+            'precio' => -50,
+            'stock' => -10,
+        ])->toArray();
+
+        $this->postJson('/api/articulos', $data)->assertStatus(422)->assertJsonValidationErrors(['precio', 'stock']);
+    }
+
+    public function testCannotUpdateArticuloWithInvalidData(): void
+    {
+        $articulo = tblArticulo::factory()->create();
+
+        $data = [
+            'precio' => 'invalid',
+            'stock' => null,
+        ];
+
+        $this->putJson("/api/articulos/{$articulo->id}", $data)->assertStatus(422)->assertJsonValidationErrors(['precio', 'stock']);
+    }
 }
