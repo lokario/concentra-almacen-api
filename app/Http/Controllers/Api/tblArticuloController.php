@@ -21,6 +21,22 @@ class tblArticuloController extends Controller {
             $query->where('fabricante', 'like', '%' . $request->fabricante . '%');
         }
 
+        if ($request->filled('precio_min')) {
+            $query->where('precio', '>=', $request->min_precio);
+        }
+
+        if ($request->filled('precio_max')) {
+            $query->where('precio', '<=', $request->max_precio);
+        }
+
+        if ($request->filled('stock_min')) {
+            $query->where('stock', '>=', $request->stock_min);
+        }
+
+        if ($request->filled('stock_max')) {
+            $query->where('stock', '<=', $request->stock_max);
+        }
+
         $articulos = $query->paginate($request->input('per_page', 10));
 
         return response()->json([

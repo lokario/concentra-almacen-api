@@ -13,24 +13,8 @@ class tblColocacionController extends Controller {
     public function index(Request $request): JsonResponse {
         $query = tblColocacion::query();
 
-        if ($request->filled('nombre')) {
-            $query->where('nombre', 'like', '%' . $request->nombre . '%');
-        }
-
-        if ($request->filled('precio_min')) {
-            $query->where('precio', '>=', $request->min_precio);
-        }
-
-        if ($request->filled('precio_max')) {
-            $query->where('precio', '<=', $request->max_precio);
-        }
-
-        if ($request->filled('stock_min')) {
-            $query->where('stock', '>=', $request->stock_min);
-        }
-
-        if ($request->filled('stock_max')) {
-            $query->where('stock', '<=', $request->stock_max);
+        if ($request->filled('lugar')) {
+            $query->where('lugar', 'like', '%' . $request->lugar . '%');
         }
 
         $colocaciones = $query->paginate($request->input('per_page', 10));
