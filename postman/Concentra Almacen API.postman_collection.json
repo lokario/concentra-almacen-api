@@ -1,0 +1,1688 @@
+{
+	"info": {
+		"_postman_id": "bd965f12-820a-4f82-885a-9dd19295a0bf",
+		"name": "Concentra Almacen API",
+		"description": "Para acceder a los endpoints protegidos:\n\n1. Usa el endoint `/api/login` con un usuario y contraseña válido. (u: admin, p: admin)\n    \n2. Copia el token que se encuentra en la respuesta\n    \n3. Ve a la pestaña de Variables y asigna el token a la variable `token`. (No necesitas agregar el token `Bearer`, ya está gestionado automáticamente)\n    \n4. Asegúrate de que la variable `base_url` apunte a tu backend (ej: [http://localhost:8000/api](http://localhost:8000/api))\n    \n\nUna vez autenticado, ya podrás bar todos los endpoints.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40723502"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"usuario\": \"testuser\",\n  \"correo\": \"test@example.com\",\n  \"password\": \"Password123\",\n  \"password_confirmation\": \"Password123\",\n  \"nombre\": \"Test\",\n  \"apellido\": \"User\",\n  \"telefono\": \"8091234567\",\n  \"cedula\": \"00112345678\",\n  \"tipo_sangre\": \"O+\",\n  \"sexo\": \"M\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register"
+							]
+						},
+						"description": "Register a new user"
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"usuario\": \"admin\",\n  \"password\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						},
+						"description": "Log in and get a bearer token"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"logout"
+							]
+						},
+						"description": "Logout the current user"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Clientes",
+			"item": [
+				{
+					"name": "List clientes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/clientes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"clientes"
+							]
+						},
+						"description": "Get all clientes"
+					},
+					"response": []
+				},
+				{
+					"name": "Create clientes",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Juan\",\n  \"apellido\": \"Diaz\",\n  \"telefono\": \"8091234567\",\n  \"tipo\": \"regular\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/clientes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"clientes"
+							]
+						},
+						"description": "Create a new cliente"
+					},
+					"response": []
+				},
+				{
+					"name": "Get clientes by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/clientes/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"clientes",
+								"1"
+							]
+						},
+						"description": "Get a specific cliente"
+					},
+					"response": []
+				},
+				{
+					"name": "Update clientes by ID",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nombre\": \"Juan\",\n  \"apellido\": \"Diaz\",\n  \"telefono\": \"8091234567\",\n  \"tipo\": \"preferente\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/clientes/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"clientes",
+								"1"
+							]
+						},
+						"description": "Update a specific cliente"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete clientes by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/clientes/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"clientes",
+								"1"
+							]
+						},
+						"description": "Delete a specific cliente"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Artículos",
+			"item": [
+				{
+					"name": "List articulos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/articulos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articulos"
+							]
+						},
+						"description": "Get all articulos"
+					},
+					"response": []
+				},
+				{
+					"name": "Create articulos",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"codigo_barras\": \"0001112223334\",\n  \"descripcion\": \"iPhone 15\",\n  \"fabricante\": \"Apple\",\n  \"precio\": 1500,\n  \"stock\": 1000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/articulos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articulos"
+							]
+						},
+						"description": "Create a new articulo"
+					},
+					"response": []
+				},
+				{
+					"name": "Get articulos by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/articulos/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articulos",
+								"1"
+							]
+						},
+						"description": "Get a specific articulo"
+					},
+					"response": []
+				},
+				{
+					"name": "Update articulos by ID",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"codigo_barras\": \"0001112223334\",\n  \"descripcion\": \"iPhone 16\",\n  \"fabricante\": \"Apple\",\n  \"precio\": 2000,\n  \"stock\": 1000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/articulos/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articulos",
+								"1"
+							]
+						},
+						"description": "Update a specific articulo"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete articulos by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/articulos/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articulos",
+								"1"
+							]
+						},
+						"description": "Delete a specific articulo"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Colocaciones",
+			"item": [
+				{
+					"name": "List colocaciones",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/colocaciones",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"colocaciones"
+							]
+						},
+						"description": "Get all colocaciones"
+					},
+					"response": []
+				},
+				{
+					"name": "Create colocaciones",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"articulo_id\": 1,\n  \"lugar\": \"Estante A\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/colocaciones",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"colocaciones"
+							]
+						},
+						"description": "Create a new colocacione"
+					},
+					"response": []
+				},
+				{
+					"name": "Get colocaciones by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/colocaciones/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"colocaciones",
+								"1"
+							]
+						},
+						"description": "Get a specific colocacione"
+					},
+					"response": []
+				},
+				{
+					"name": "Update colocaciones by ID",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"articulo_id\": 1,\n  \"lugar\": \"Estante B\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/colocaciones/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"colocaciones",
+								"1"
+							]
+						},
+						"description": "Update a specific colocacione"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete colocaciones by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/colocaciones/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"colocaciones",
+								"1"
+							]
+						},
+						"description": "Delete a specific colocacione"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Facturas",
+			"item": [
+				{
+					"name": "List facturas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/facturas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"facturas"
+							]
+						},
+						"description": "Get all facturas"
+					},
+					"response": []
+				},
+				{
+					"name": "Create facturas",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cliente_id\": 1,\n  \"fecha\": \"2024-01-01\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/facturas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"facturas"
+							]
+						},
+						"description": "Create a new factura"
+					},
+					"response": []
+				},
+				{
+					"name": "Get facturas by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/facturas/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"facturas",
+								"1"
+							]
+						},
+						"description": "Get a specific factura"
+					},
+					"response": []
+				},
+				{
+					"name": "Update facturas by ID",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"cliente_id\": 1,\n  \"estado\": \"cancelada\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/facturas/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"facturas",
+								"1"
+							]
+						},
+						"description": "Update a specific factura"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete facturas by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/facturas/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"facturas",
+								"1"
+							]
+						},
+						"description": "Delete a specific factura"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pedidos",
+			"item": [
+				{
+					"name": "List pedidos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/pedidos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"pedidos"
+							]
+						},
+						"description": "Get all pedidos"
+					},
+					"response": []
+				},
+				{
+					"name": "Create pedidos",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"factura_id\": 1,\n  \"colocacion_id\": 1,\n  \"cantidad\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/pedidos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"pedidos"
+							]
+						},
+						"description": "Create a new pedido"
+					},
+					"response": []
+				},
+				{
+					"name": "Get pedidos by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/pedidos/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"pedidos",
+								"1"
+							]
+						},
+						"description": "Get a specific pedido"
+					},
+					"response": []
+				},
+				{
+					"name": "Update pedidos by ID",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"factura_id\": 1,\n  \"colocacion_id\": 1,\n  \"cantidad\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/pedidos/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"pedidos",
+								"1"
+							]
+						},
+						"description": "Update a specific pedido"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete pedidos by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/pedidos/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"pedidos",
+								"1"
+							]
+						},
+						"description": "Delete a specific pedido"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "List usuarios",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						},
+						"description": "Get all usuarios"
+					},
+					"response": []
+				},
+				{
+					"name": "Create usuarios",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"usuario\": \"newuser\",\n  \"correo\": \"newusr@example.com\",\n  \"password\": \"Password123\",\n  \"nombre\": \"New\",\n  \"apellido\": \"User\",\n  \"cedula\": \"40258345837\",\n  \"telefono\": \"8094562234\",\n  \"tipo_sangre\": \"O+\",\n  \"sexo\": \"F\",\n  \"rol\": \"user\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						},
+						"description": "Create a new usuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Get usuarios by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/usuarios/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios",
+								"1"
+							]
+						},
+						"description": "Get a specific usuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Update usuarios by ID",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"apellido\": \"Perez\",\n  \"rol\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/usuarios/2",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios",
+								"2"
+							]
+						},
+						"description": "Update a specific usuario"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete usuarios by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/usuarios/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios",
+								"1"
+							]
+						},
+						"description": "Delete a specific usuario"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Filtros",
+			"item": [
+				{
+					"name": "Filter Clientes by tipo",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/clientes?tipo=preferente",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"clientes"
+							],
+							"query": [
+								{
+									"key": "tipo",
+									"value": "preferente"
+								}
+							]
+						},
+						"description": "Testing filtering: /clientes?tipo=regular"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Clientes by nombre",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/clientes?nombre=A",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"clientes"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "A"
+								}
+							]
+						},
+						"description": "Testing filtering: /clientes?tipo=regular"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Clientes by apellido",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/clientes?apellido=E",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"clientes"
+							],
+							"query": [
+								{
+									"key": "apellido",
+									"value": "E"
+								}
+							]
+						},
+						"description": "Testing filtering: /clientes?tipo=regular"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Articulos by stock range",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/articulos?stock_min=10&stock_max=50",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articulos"
+							],
+							"query": [
+								{
+									"key": "stock_min",
+									"value": "10"
+								},
+								{
+									"key": "stock_max",
+									"value": "50"
+								}
+							]
+						},
+						"description": "Testing filtering: /colocaciones?stock_min=10&stock_max=20"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Articulos by price range",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/articulos?precio_min=100&precio_max=1500",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articulos"
+							],
+							"query": [
+								{
+									"key": "precio_min",
+									"value": "100"
+								},
+								{
+									"key": "precio_max",
+									"value": "1500"
+								}
+							]
+						},
+						"description": "Testing filtering: /colocaciones?stock_min=10&stock_max=20"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Articulos by fabricante",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/articulos?fabricante=Group",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articulos"
+							],
+							"query": [
+								{
+									"key": "fabricante",
+									"value": "Group"
+								}
+							]
+						},
+						"description": "Testing filtering: /colocaciones?stock_min=10&stock_max=20"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Articulos by codigo_barras",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/articulos?codigo_barras=4",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"articulos"
+							],
+							"query": [
+								{
+									"key": "codigo_barras",
+									"value": "4"
+								}
+							]
+						},
+						"description": "Testing filtering: /colocaciones?stock_min=10&stock_max=20"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Pedidos by Factura",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/pedidos?factura_id=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"pedidos"
+							],
+							"query": [
+								{
+									"key": "factura_id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Get all pedidos"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Pedidos by colocacion",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/pedidos?colocacion_id=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"pedidos"
+							],
+							"query": [
+								{
+									"key": "colocacion_id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Get all pedidos"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Facturas by cliente",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/facturas?cliente_id=1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"facturas"
+							],
+							"query": [
+								{
+									"key": "cliente_id",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Testing filtering: /facturas?from=2024-01-01&to=2024-01-31"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Colocaciones by lugar",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/colocaciones?lugar=Estante A",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"colocaciones"
+							],
+							"query": [
+								{
+									"key": "lugar",
+									"value": "Estante A"
+								}
+							]
+						},
+						"description": "Testing filtering: /facturas?from=2024-01-01&to=2024-01-31"
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Usuarios by email",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						},
+						"description": "Testing filtering: /usuarios?email=test@example.com"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000/api"
+		},
+		{
+			"key": "token",
+			"value": "<your-token-here>"
+		}
+	]
+}
