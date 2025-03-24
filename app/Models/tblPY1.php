@@ -14,15 +14,15 @@ class tblPY1 extends Authenticatable {
     protected $table = 'tbl_p_y1';
 
     protected $fillable = [
-        'username',
-        'email',
+        'usuario',
+        'correo',
         'password',
-        'first_name',
-        'last_name',
+        'nombre',
+        'apellido',
         'cedula',
         'telefono',
         'tipo_sangre',
-        'sex',
+        'sexo',
         'rol'
     ];
 }

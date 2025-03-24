@@ -10,16 +10,16 @@ class tblPY1Factory extends Factory
     public function definition(): array
     {
         return [
-            'username' => $this->faker->userName,
+            'usuario' => $this->faker->userName,
             'password' => Hash::make('password'),
-            'email' => $this->faker->unique()->safeEmail,
-            'first_name' => $this->faker->firstName,
-            'last_name' => $this->faker->lastName,
+            'correo' => $this->faker->unique()->safeEmail,
+            'nombre' => $this->faker->firstName,
+            'apellido' => $this->faker->lastName,
             'telefono' => $this->faker->numerify('809#######'),
             'cedula' => $this->faker->numerify('###-#######-#'),
             'tipo_sangre' => $this->faker->randomElement(['A+', 'B+', 'O-', 'AB+']),
             'rol' => 'admin',
-            'sex' => $this->faker->randomElement(['M', 'F']),
+            'sexo' => $this->faker->randomElement(['M', 'F']),
         ];
     }
 }

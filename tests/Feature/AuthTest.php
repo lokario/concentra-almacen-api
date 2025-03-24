@@ -16,16 +16,16 @@ class AuthTest extends TestCase
     public function testRegistersUserSuccessfully(): void
     {
         $data = [
-            'username' => 'testUser',
-            'email' => 'test@example.com',
+            'usuario' => 'testUser',
+            'correo' => 'test@example.com',
             'password' => 'StrongPass123',
             'password_confirmation' => 'StrongPass123',
-            'first_name' => 'Test',
-            'last_name' => 'User',
+            'nombre' => 'Test',
+            'apellido' => 'User',
             'telefono' => '8091234567',
             'cedula' => '00112345678',
             'tipo_sangre' => 'O+',
-            'sex' => 'M'
+            'sexo' => 'M'
         ];
 
         $response = $this->postJson('/api/register', $data);
@@ -37,18 +37,18 @@ class AuthTest extends TestCase
                 'user'
             ]);
 
-        $this->assertDatabaseHas('tbl_p_y1', ['email' => 'test@example.com']);
+        $this->assertDatabaseHas('tbl_p_y1', ['correo' => 'test@example.com']);
     }
 
     public function testLoginWithValidCredentials(): void
     {
         tblPY1::factory()->create([
-            'username' => 'validuser',
+            'usuario' => 'validuser',
             'password' => Hash::make('password123')
         ]);
 
         $response = $this->postJson('/api/login', [
-            'username' => 'validuser',
+            'usuario' => 'validuser',
             'password' => 'password123'
         ]);
 
@@ -58,12 +58,12 @@ class AuthTest extends TestCase
     public function testLoginFailsWithInvalidCredentials(): void
     {
         tblPY1::factory()->create([
-            'username' => 'baduser',
+            'usuario' => 'baduser',
             'password' => Hash::make('correctpass')
         ]);
 
         $response = $this->postJson('/api/login', [
-            'username' => 'baduser',
+            'usuario' => 'baduser',
             'password' => 'wrongpass'
         ]);
 

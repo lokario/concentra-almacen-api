@@ -11,16 +11,16 @@ class tblPY1Seeder extends Seeder
     public function run(): void
     {
         tblPY1::create([
-            'username' => 'admin',
-            'email' => 'admin@example.com',
+            'usuario' => 'admin',
+            'correo' => 'admin@example.com',
             'password' => Hash::make('admin'),
-            'first_name' => 'Admin',
-            'last_name' => 'Root',
+            'nombre' => 'Admin',
+            'apellido' => 'Root',
             'telefono' => '8095551234',
             'cedula' => '00112345678',
             'tipo_sangre' => 'O+',
             'rol' => 'admin',
-            'sex' => 'M',
+            'sexo' => 'M',
         ]);
 
         tblPY1::factory()->count(5)->create([

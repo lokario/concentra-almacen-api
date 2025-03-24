@@ -15,7 +15,7 @@ class LoginRequest extends FormRequest {
     }
 
     public function authenticate(): tblPY1 {
-        $user = tblPY1::where('username', $this->input('username'))->first();
+        $user = tblPY1::where('usuario', $this->input('usuario'))->first();
 
         if (! $user || ! Hash::check($this->input('password'), $user->password)) {
             throw new HttpResponseException(response()->json([
@@ -28,7 +28,7 @@ class LoginRequest extends FormRequest {
 
     public function rules(): array {
         return [
-            'username' => 'required|string',
+            'usuario' => 'required|string',
             'password' => 'required|string'
         ];
     }

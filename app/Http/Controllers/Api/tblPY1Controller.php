@@ -18,8 +18,8 @@ class tblPY1Controller extends Controller {
             $query->where('nombre', 'like', '%' . $request->nombre . '%');
         }
 
-        if ($request->filled('email')) {
-            $query->where('email', 'like', '%' . $request->email . '%');
+        if ($request->filled('correo')) {
+            $query->where('correo', 'like', '%' . $request->correo . '%');
         }
 
         if ($request->filled('cedula')) {

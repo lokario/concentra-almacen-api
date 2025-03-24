@@ -14,7 +14,8 @@ class UpdateUsuarioRequest extends FormRequest {
     public function rules(): array {
         return [
             'nombre' => 'sometimes|string|max:255',
-            'email' => 'sometimes|email',
+            'apellido' => 'sometimes|string|max:255',
+            'correo' => 'sometimes|email',
             'password' => 'sometimes|string|min:6',
             'telefono' => 'sometimes|string|max:20',
             'cedula' => 'sometimes|string|max:25',

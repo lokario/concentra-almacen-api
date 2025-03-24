@@ -42,7 +42,7 @@ class PY1Test extends TestCase
 
         $response = $this->postJson('/api/usuarios', $data);
 
-        $response->assertStatus(201)->assertJsonFragment(['email' => $data['email']]);
+        $response->assertStatus(201)->assertJsonFragment(['correo' => $data['correo']]);
     }
 
     public function testUserCannotCreateUser(): void

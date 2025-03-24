@@ -13,8 +13,8 @@ class StoreUsuarioRequest extends FormRequest {
 
     public function rules(): array {
         return [
-            'username' => 'required|string|unique:tbl_p_y1,username|max:50',
-            'email' => 'required|email|unique:tbl_p_y1,email',
+            'usuario' => 'required|string|unique:tbl_p_y1,usuario|max:50',
+            'correo' => 'required|email|unique:tbl_p_y1,correo',
             'password' => [
                 'required',
                 'string',
@@ -23,12 +23,12 @@ class StoreUsuarioRequest extends FormRequest {
                 'regex:/[A-Z]/',
                 'regex:/[0-9]/'
             ],
-            'first_name' => 'required|string|max:100',
-            'last_name' => 'required|string|max:100',
+            'nombre' => 'required|string|max:100',
+            'apellido' => 'required|string|max:100',
             'telefono' => 'required|string|max:20',
             'cedula' => 'required|string|max:25',
             'tipo_sangre' => 'required|string|max:10',
-            'sex' => 'required|in:M,F',
+            'sexo' => 'required|in:M,F',
             'rol' => 'in:admin,user'
         ];
     }

@@ -15,12 +15,15 @@ class CreateTblPY1STable extends Migration
     {
         Schema::create('tbl_p_y1', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->string('email')->unique();
+            $table->string('usuario')->unique();
+            $table->string('correo')->unique();
             $table->string('password');
-            $table->string('telefono');
+            $table->string('nombre');
+            $table->string('apellido');
             $table->string('cedula');
+            $table->string('telefono');
             $table->string('tipo_sangre');
+            $table->string('sexo');
             $table->string('rol')->default('user');
             $table->timestamps();
         });
