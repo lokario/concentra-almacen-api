@@ -38,7 +38,7 @@ class tblFacturaController extends Controller {
     }
 
     public function store(StoreFacturaRequest $request): JsonResponse {
-        $factura = tblFactura::create($request->validated());
+        $factura = tblFactura::create($request->validated())->refresh();
         return response()->json($factura, 201);
     }
 
@@ -49,6 +49,10 @@ class tblFacturaController extends Controller {
     public function update(UpdateFacturaRequest $request, tblFactura $factura): JsonResponse {
         if (auth()->user()->rol !== Constants::ROL_ADMIN) {
             return response()->json(['message' => 'No autorizado'], 403);
+        }
+
+        if ($factura->estado === Constants::FACTURA_CANCELADA) {
+            return response()->json(['message' => 'No se puede modificar una factura cancelada.'], 403);
         }
         
         $factura->update($request->validated());

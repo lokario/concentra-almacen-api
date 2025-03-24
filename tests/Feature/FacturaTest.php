@@ -107,16 +107,47 @@ class FacturaTest extends TestCase
         $this->postJson('/api/facturas', $data)->assertStatus(422)->assertJsonValidationErrors(['fecha']);
     }
 
-    public function testFailsToUpdateWithInvalidData(): void
+    public function testDefaultsEstadoToFinalizada(): void
+    {
+        $cliente = tblCliente::factory()->create();
+
+        $data = [
+            'cliente_id' => $cliente->id,
+            'fecha' => now()->toDateString(),
+        ];
+
+        $this->postJson('/api/facturas', $data)->assertStatus(201)
+            ->assertJsonFragment(['estado' => Constants::FACTURA_FINALIZADA]);
+    }
+
+    public function testRejectsInvalidEstado(): void
     {
         $factura = tblFactura::factory()->create();
 
-        $invalid = [
-            'cliente_id' => null,
-            'fecha' => 'invalid-date',
+        $data = [
+            'cliente_id' => $factura->cliente_id,
+            'estado' => 'invalid-status',
         ];
 
-        $this->putJson("/api/facturas/{$factura->id}", $invalid)->assertStatus(422)
-            ->assertJsonValidationErrors(['cliente_id', 'fecha']);
+        $this->putJson("/api/facturas/{$factura->id}", $data)->assertStatus(422)
+            ->assertJsonValidationErrors(['estado']);
+    }
+
+    public function testIgnoresFechaUpdate(): void
+    {
+        $factura = tblFactura::factory()->create([
+            'fecha' => now()->toDateString(),
+        ]);
+
+        $updatedFecha = now()->addDays(5)->toDateString();
+
+        $data = [
+            'cliente_id' => $factura->cliente_id,
+            'estado' => Constants::FACTURA_FINALIZADA,
+            'fecha' => $updatedFecha,
+        ];
+
+        $this->putJson("/api/facturas/{$factura->id}", $data)->assertStatus(200);
+        $this->assertNotEquals($updatedFecha, $factura->fresh()->fecha);
     }
 }

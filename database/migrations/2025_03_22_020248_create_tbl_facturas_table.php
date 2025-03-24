@@ -1,5 +1,6 @@
 <?php
 
+use App\Support\Constants;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,6 +18,7 @@ class CreateTblFacturasTable extends Migration
             $table->id();
             $table->foreignId('cliente_id')->constrained('tbl_cliente');
             $table->dateTime('fecha');
+            $table->string('estado')->default(Constants::FACTURA_FINALIZADA);
             $table->timestamps();
         });
     }

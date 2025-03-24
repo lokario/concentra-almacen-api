@@ -10,7 +10,7 @@ class tblFactura extends Model {
 
     protected $table = 'tbl_factura';
 
-    protected $fillable = ['cliente_id', 'fecha'];
+    protected $fillable = ['cliente_id', 'fecha', 'estado'];
 
     public function cliente() {
         return $this->belongsTo(tblCliente::class, 'cliente_id');

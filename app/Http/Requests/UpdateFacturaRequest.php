@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Support\Constants;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateFacturaRequest extends FormRequest {
     public function authorize(): bool {
@@ -13,8 +15,7 @@ class UpdateFacturaRequest extends FormRequest {
 
     public function rules(): array {
         return [
-            'cliente_id' => 'sometimes|exists:tbl_cliente,id',
-            'fecha' => 'sometimes|date',
+            'estado' => ['required', Rule::in(Constants::ESTADOS_FACTURA)]
         ];
     }
 
