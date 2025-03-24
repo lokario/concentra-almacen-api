@@ -3,15 +3,12 @@
 namespace App\Http\Requests;
 
 use App\Support\Constants;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
+use App\Traits\HasEnumValidationMessages;
+use App\Traits\HasPasswordValidationMessages;
 use Illuminate\Validation\Rule;
 
-class StoreUsuarioRequest extends FormRequest {
-    public function authorize(): bool {
-        return true;
-    }
+class StoreUsuarioRequest extends BaseFormRequest {
+    use HasPasswordValidationMessages, HasEnumValidationMessages;
 
     public function rules(): array {
         return [
@@ -35,10 +32,11 @@ class StoreUsuarioRequest extends FormRequest {
         ];
     }
 
-    protected function failedValidation(Validator $validator) {
-        throw new HttpResponseException(response()->json([
-            'message' => 'Error en la validación de los datos.',
-            'errors'  => $validator->errors(),
-        ], 422));
+    public function messages(): array {
+        return array_merge(
+            parent::messages(),
+            $this->passwordValidationMessages(),
+            $this->enumValidationMessages()
+        );
     }
 }
