@@ -18,6 +18,10 @@ class tblClienteController extends Controller {
             $query->where('nombre', 'like', '%' . $request->nombre . '%');
         }
 
+        if ($request->filled('apellido')) {
+            $query->where('apellido', 'like', '%' . $request->apellido . '%');
+        }
+
         if ($request->filled('tipo')) {
             $query->where('tipo', $request->tipo);
         }
