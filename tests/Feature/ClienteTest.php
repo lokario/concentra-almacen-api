@@ -103,4 +103,13 @@ class ClienteTest extends TestCase
         $response->assertJsonCount(1, 'data');
         $response->assertJsonFragment(['tipo' => 'regular']);
     }
+
+    public function testRejectsInvalidTipo(): void
+    {
+        $data = tblCliente::factory()->make([
+            'tipo' => 'vip'
+        ])->toArray();
+
+        $this->actingAs($this->user)->postJson('/api/clientes', $data)->assertStatus(422)->assertJsonValidationErrors(['tipo']);
+    }
 }

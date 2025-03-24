@@ -16,7 +16,7 @@ class StoreClienteRequest extends FormRequest {
             'nombre' => 'required|string|max:255',
             'apellido' => 'required|string|max:255',
             'telefono' => 'required|string|max:20',
-            'tipo' => 'required|string|max:50', // No specific values given in the test
+            'tipo' => 'required|in:regular,preferente'
         ];
     }
 

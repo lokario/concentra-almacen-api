@@ -16,7 +16,7 @@ class UpdateClienteRequest extends FormRequest {
             'nombre' => 'sometimes|string|max:255',
             'apellido' => 'sometimes|string|max:255',
             'telefono' => 'sometimes|string|max:20',
-            'tipo' => 'sometimes|string|max:50',
+            'tipo' => 'sometimes|in:regular,preferente'
         ];
     }
 
