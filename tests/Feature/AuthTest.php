@@ -80,4 +80,42 @@ class AuthTest extends TestCase
 
         $response->assertStatus(200)->assertJson(['message' => 'Sesión cerrada']);
     }
+    
+    public function testRejectsDuplicateEmailAndUsername(): void
+    {
+        tblPY1::factory()->create([
+            'correo' => 'test2@example.com',
+            'usuario' => 'test2'
+        ]);
+
+        $data = tblPY1::factory()->make([
+            'correo' => 'test2@example.com',
+            'usuario' => 'test2',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
+        ])->toArray();
+
+        $this->postJson('/api/register', $data)->assertStatus(422)->assertJsonValidationErrors(['correo', 'usuario']);
+    }
+
+    public function testRequiresPasswordConfirmation(): void
+    {
+        $data = tblPY1::factory()->make([
+            'password' => 'password',
+            'password_confirmation' => null,
+        ])->toArray();
+
+        $this->postJson('/api/register', $data)->assertStatus(422)->assertJsonValidationErrors(['password']);
+    }
+
+    public function testAssignsUserRoleByDefault(): void
+    {
+        $data = tblPY1::factory()->make([
+            'rol' => 'admin',
+            'password' => 'Password123',
+            'password_confirmation' => 'Password123',
+        ])->toArray();
+
+        $this->postJson('/api/register', $data)->assertStatus(201)->assertJsonMissing(['rol '=> 'admin']);
+    }
 }
