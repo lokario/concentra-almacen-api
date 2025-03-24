@@ -7,6 +7,7 @@ use App\Models\tblFactura;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreFacturaRequest;
 use App\Http\Requests\UpdateFacturaRequest;
+use App\Support\Constants;
 use Illuminate\Http\JsonResponse;
 
 class tblFacturaController extends Controller {
@@ -46,7 +47,7 @@ class tblFacturaController extends Controller {
     }
 
     public function update(UpdateFacturaRequest $request, tblFactura $factura): JsonResponse {
-        if (auth()->user()->rol !== 'admin') {
+        if (auth()->user()->rol !== Constants::ROL_ADMIN) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
         
@@ -55,7 +56,7 @@ class tblFacturaController extends Controller {
     }
 
     public function destroy(tblFactura $factura): JsonResponse {
-        if (auth()->user()->rol !== 'admin') {
+        if (auth()->user()->rol !== Constants::ROL_ADMIN) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 

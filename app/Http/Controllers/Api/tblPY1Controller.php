@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\tblPY1;
 use App\Http\Requests\StoreUsuarioRequest;
 use App\Http\Requests\UpdateUsuarioRequest;
+use App\Support\Constants;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\JsonResponse;
@@ -42,7 +43,7 @@ class tblPY1Controller extends Controller {
     }
 
     public function store(StoreUsuarioRequest $request): JsonResponse {
-        if (auth()->user()->rol !== 'admin') {
+        if (auth()->user()->rol !== Constants::ROL_ADMIN) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
         
@@ -58,7 +59,7 @@ class tblPY1Controller extends Controller {
     }
 
     public function update(UpdateUsuarioRequest $request, tblPY1 $usuario): JsonResponse {
-        if (auth()->user()->rol !== 'admin') {
+        if (auth()->user()->rol !== Constants::ROL_ADMIN) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
@@ -73,7 +74,7 @@ class tblPY1Controller extends Controller {
     }
 
     public function destroy(tblPY1 $usuario): JsonResponse {
-        if (auth()->user()->rol !== 'admin') {
+        if (auth()->user()->rol !== Constants::ROL_ADMIN) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 

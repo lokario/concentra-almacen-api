@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests\StorePedidoRequest;
 use App\Http\Requests\UpdatePedidoRequest;
+use App\Support\Constants;
 use Illuminate\Http\JsonResponse;
 
 class tblPedidoController extends Controller {
@@ -70,7 +71,7 @@ class tblPedidoController extends Controller {
     }
 
     public function update(UpdatePedidoRequest $request, tblPedido $pedido): JsonResponse {
-        if (auth()->user()->rol !== 'admin') {
+        if (auth()->user()->rol !== Constants::ROL_ADMIN) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
         
@@ -118,7 +119,7 @@ class tblPedidoController extends Controller {
     }
 
     public function destroy(tblPedido $pedido): JsonResponse {
-        if (auth()->user()->rol !== 'admin') {
+        if (auth()->user()->rol !== Constants::ROL_ADMIN) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 

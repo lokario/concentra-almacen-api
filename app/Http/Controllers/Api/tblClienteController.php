@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\tblCliente;
 use App\Http\Requests\StoreClienteRequest;
 use App\Http\Requests\UpdateClienteRequest;
+use App\Support\Constants;
 use Illuminate\Http\JsonResponse;
 
 class tblClienteController extends Controller {
@@ -44,7 +45,7 @@ class tblClienteController extends Controller {
     }
 
     public function update(UpdateClienteRequest $request, tblCliente $cliente): JsonResponse {
-        if (auth()->user()->rol !== 'admin') {
+        if (auth()->user()->rol !== Constants::ROL_ADMIN) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
         
@@ -54,7 +55,7 @@ class tblClienteController extends Controller {
     }
 
     public function destroy(tblCliente $cliente): JsonResponse {
-        if (auth()->user()->rol !== 'admin') {
+        if (auth()->user()->rol !== Constants::ROL_ADMIN) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 

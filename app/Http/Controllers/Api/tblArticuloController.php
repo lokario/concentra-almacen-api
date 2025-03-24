@@ -7,6 +7,7 @@ use App\Models\tblArticulo;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreArticuloRequest;
 use App\Http\Requests\UpdateArticuloRequest;
+use App\Support\Constants;
 use Illuminate\Http\JsonResponse;
 
 class tblArticuloController extends Controller {
@@ -58,7 +59,7 @@ class tblArticuloController extends Controller {
     }
 
     public function update(UpdateArticuloRequest $request, tblArticulo $articulo): JsonResponse {
-        if (auth()->user()->rol !== 'admin') {
+        if (auth()->user()->rol !== Constants::ROL_ADMIN) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
         
@@ -67,7 +68,7 @@ class tblArticuloController extends Controller {
     }
 
     public function destroy(tblArticulo $articulo): JsonResponse {
-        if (auth()->user()->rol !== 'admin') {
+        if (auth()->user()->rol !== Constants::ROL_ADMIN) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\tblPY1;
+use App\Support\Constants;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
@@ -24,8 +25,8 @@ class AuthTest extends TestCase
             'apellido' => 'User',
             'telefono' => '8091234567',
             'cedula' => '00112345678',
-            'tipo_sangre' => 'O+',
-            'sexo' => 'M'
+            'tipo_sangre' => Constants::TIPOS_SANGRE[0],
+            'sexo' => Constants::SEXOS[0]
         ];
 
         $response = $this->postJson('/api/register', $data);
@@ -111,11 +112,11 @@ class AuthTest extends TestCase
     public function testAssignsUserRoleByDefault(): void
     {
         $data = tblPY1::factory()->make([
-            'rol' => 'admin',
+            'rol' => Constants::ROL_ADMIN,
             'password' => 'Password123',
             'password_confirmation' => 'Password123',
         ])->toArray();
 
-        $this->postJson('/api/register', $data)->assertStatus(201)->assertJsonMissing(['rol '=> 'admin']);
+        $this->postJson('/api/register', $data)->assertStatus(201)->assertJsonMissing(['rol '=> Constants::ROL_ADMIN]);
     }
 }

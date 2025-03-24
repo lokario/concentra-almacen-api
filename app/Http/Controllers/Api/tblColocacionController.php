@@ -7,6 +7,7 @@ use App\Models\tblColocacion;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreColocacionRequest;
 use App\Http\Requests\UpdateColocacionRequest;
+use App\Support\Constants;
 use Illuminate\Http\JsonResponse;
 
 class tblColocacionController extends Controller {
@@ -38,7 +39,7 @@ class tblColocacionController extends Controller {
     }
 
     public function update(UpdateColocacionRequest $request, tblColocacion $colocacion): JsonResponse {
-        if (auth()->user()->rol !== 'admin') {
+        if (auth()->user()->rol !== Constants::ROL_ADMIN) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
@@ -47,7 +48,7 @@ class tblColocacionController extends Controller {
     }
 
     public function destroy(tblColocacion $colocacion): JsonResponse {
-        if (auth()->user()->rol !== 'admin') {
+        if (auth()->user()->rol !== Constants::ROL_ADMIN) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 

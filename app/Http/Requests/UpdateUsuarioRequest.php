@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Support\Constants;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUsuarioRequest extends FormRequest {
     public function authorize(): bool {
@@ -19,8 +21,8 @@ class UpdateUsuarioRequest extends FormRequest {
             'password' => 'sometimes|string|min:6',
             'telefono' => 'sometimes|string|max:20',
             'cedula' => 'sometimes|string|max:25',
-            'tipo_sangre' => 'sometimes|string|max:10',
-            'rol' => 'sometimes|in:admin,user'
+            'tipo_sangre' => ['required', Rule::in(Constants::TIPOS_SANGRE)],
+            'rol' => ['sometimes', Rule::in(Constants::ROLES)]
         ];
     }
 

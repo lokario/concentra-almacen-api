@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\tblPY1;
+use App\Support\Constants;
 use Illuminate\Support\Facades\Hash;
 
 class tblPY1Seeder extends Seeder
@@ -18,13 +19,13 @@ class tblPY1Seeder extends Seeder
             'apellido' => 'Root',
             'telefono' => '8095551234',
             'cedula' => '00112345678',
-            'tipo_sangre' => 'O+',
-            'rol' => 'admin',
-            'sexo' => 'M',
+            'tipo_sangre' => Constants::TIPOS_SANGRE[0],
+            'rol' => Constants::ROL_ADMIN,
+            'sexo' => Constants::SEXOS[0]
         ]);
 
         tblPY1::factory()->count(5)->create([
-            'rol' => 'user',
+            'rol' => Constants::ROL_USER,
             'password' => Hash::make('Password123'),
         ]);
     }

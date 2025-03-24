@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Support\Constants;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,9 +18,9 @@ class tblPY1Factory extends Factory
             'apellido' => $this->faker->lastName,
             'telefono' => $this->faker->numerify('809#######'),
             'cedula' => $this->faker->numerify('###-#######-#'),
-            'tipo_sangre' => $this->faker->randomElement(['A+', 'B+', 'O-', 'AB+']),
-            'rol' => 'admin',
-            'sexo' => $this->faker->randomElement(['M', 'F']),
+            'tipo_sangre' => $this->faker->randomElement(Constants::TIPOS_SANGRE),
+            'rol' => Constants::ROL_ADMIN,
+            'sexo' => $this->faker->randomElement(Constants::SEXOS),
         ];
     }
 }

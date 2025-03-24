@@ -1,5 +1,6 @@
 <?php
 
+use App\Support\Constants;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -24,7 +25,7 @@ class CreateTblPY1STable extends Migration
             $table->string('telefono');
             $table->string('tipo_sangre');
             $table->string('sexo');
-            $table->string('rol')->default('user');
+            $table->string('rol')->default(Constants::ROL_USER);
             $table->timestamps();
         });
     }

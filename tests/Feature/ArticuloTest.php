@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\tblArticulo;
 use App\Models\tblPY1;
+use App\Support\Constants;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -17,7 +18,7 @@ class ArticuloTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->user = tblPY1::factory()->create(['rol' => 'admin']);
+        $this->user = tblPY1::factory()->create(['rol' => Constants::ROL_ADMIN]);
         Sanctum::actingAs($this->user);
     }
 

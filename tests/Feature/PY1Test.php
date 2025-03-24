@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\tblPY1;
+use App\Support\Constants;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
@@ -18,8 +19,8 @@ class PY1Test extends TestCase
     {
         parent::setUp();
 
-        $this->admin = tblPY1::factory()->create(['rol' => 'admin']);
-        $this->user = tblPY1::factory()->create(['rol' => 'user']);
+        $this->admin = tblPY1::factory()->create(['rol' => Constants::ROL_ADMIN]);
+        $this->user = tblPY1::factory()->create(['rol' => Constants::ROL_USER]);
     }
 
     public function testAdminCanListUsers(): void
