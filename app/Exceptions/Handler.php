@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -64,6 +65,14 @@ class Handler extends ExceptionHandler {
             return response()->json([
                 'message' => 'Registro no encontrado.',
             ], 404);
+        }
+
+        if ($exception instanceof QueryException && $exception->getCode() === '23000') {
+            if (str_contains($exception->getMessage(), 'FOREIGN KEY constraint failed')) {
+                return response()->json([
+                    'message' => 'Este recurso no se puede eliminar porque tiene elementos relacionados.',
+                ], 409);
+            }
         }
 
         return parent::render($request, $exception);
